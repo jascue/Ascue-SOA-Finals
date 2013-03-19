@@ -1,0 +1,140 @@
+<html>
+	<head>
+		<script src="./jquery.js" type="text/javascript">
+		</script>
+	</head>
+	
+	<body style = "zoom: 1;">
+		<h1> SOA Finals </h1>
+
+		<button id="my_button"> Basic Information </button>
+		<button id="my_button2"> Pictures </button>
+		<button id="my_button3"> Social Aspect </button>
+		
+		<div id = "info" >
+		</div>
+		
+		<div id = "picture" >
+		</div>
+		
+		<div id = "social" >
+		</div>
+		
+		<script>
+			$(document).ready(function() {
+				$("#my_button").click(function() {
+					var access_token = "AAACEdEose0cBAP1GpFgZACufAbM7m6ESpuv7gzityfRpya1XN3lYwHFkfZBNenNHvSFPq5E4I92hZCQi17sUmZC1TxiFbWaysdNCXaTjnAHBZAaGn8Ojl";
+					var service_name = 	"https://graph.facebook.com/100000535111471?access_token=" + access_token + " &fields=id,name,gender,age_range,location,email,languages,birthday,religion,address,interests";
+					$.getJSON(service_name, function(data) {
+						var name = data["name"];
+						var gender = data["gender"];
+						var age = data["age_range"];
+						var addLoc = data["location"]["name"];
+						var num = data["number"];
+						var email = data["email"];
+						var language = data["languages"]["name"];
+						var birthday = data["birthday"];
+						var interests = data["interests"]["data"]["name"];
+						var religion = data["religion"];
+						
+						if(!name)
+							name = "N/A";
+						else
+							$("#info").append("<br> Name: " + name + "</br>");
+						
+						if(!gender)
+							gender = "N/A";
+						else						
+						$("#info").append("<br> Gender: " + gender + "</br>");
+						
+						if(!age)
+							age = "N/A";
+						else
+						$("#info").append("<br> Age: " + age + "</br>");
+						
+						if(!addLoc)
+							addLoc = "N/A";
+						else
+						$("#info").append("<br> Address/Location: " + addLoc + "</br>");
+						
+						if(!num)
+							num = "N/A";
+						else
+						$("#info").append("<br> Mobile Number: " + num + "</br>");
+						
+						if(!email)
+							email = "N/A";
+						else
+						$("#info").append("<br> Email Address: " + email + "</br>");
+						
+						if(!language)
+							language = "N/A";
+						else
+						$("#info").append("<br> Languages Spoken: " + language + "</br>");
+						
+						$(language).each(function(i) {
+							$("#info").append("<br>" + language[i]["name"] + "</br>");
+						});
+						
+						if(!birthday)
+							birthday = "N/A";
+						else
+						$("#info").append("<br> Birthday: " + birthday + "</br>");
+						
+						if(!interests)
+							interests = "N/A";
+						else
+						$("#info").append("<br> Interests: " + interests + "</br>");
+						
+						if(!religion)
+							religion = "N/A";
+						else
+						$("#info").append("<br> Religion: " + religion + "</br>");
+					});
+				});
+			});
+		</script>
+		
+		<script>
+			$(document).ready(function() {
+				$("#my_button2").click(function() {
+					var access_token = "AAACEdEose0cBAC4CiqMnYXdQrKbz2vpydEs2REbgwgn82xLWsV729Gqz6WoNTBMTiQTOBsBH9GjPkrtRlKe9Q2LGPtoCRZApDmZB1Tt888rVZAzK3rJ";
+					var service_name = 	"https://graph.facebook.com/100000535111471?access_token=" + access_token + " &fields=photos.limit(5)";
+					$.getJSON(service_name, function(data) {
+						var album = data["photos"]["data"];
+						$(album).each(function(i) {
+							var picture = "<img src=" + album[i]["source"] + ">";
+							$("picture").append("<br>" + picture + "</br>");
+						});
+					});
+				});
+			});
+		</script>
+		
+		<script>
+			$(document).ready(function() {
+				$("#my_button3").click(function() {
+					var access_token = "AAACEdEose0cBAC4CiqMnYXdQrKbz2vpydEs2REbgwgn82xLWsV729Gqz6WoNTBMTiQTOBsBH9GjPkrtRlKe9Q2LGPtoCRZApDmZB1Tt888rVZAzK3rJ";
+					var service_name = 	"https://graph.facebook.com/100000535111471?access_token=" + access_token + " &fields=events.limit(1),likes,friends,relationship_status";
+					$.getJSON(service_name, function(data) {
+						$("#social").append("<br> Likes: </br>" );
+						$.each(data.likes.data, function(i, qwe){
+							var likes = qwe.name + " , ";
+							$("#social").append(likes);
+						});
+						</br>
+						$("#social").append("<br> Friends: </br>" );
+						$.each(data.friends.data, function( i, asd ){
+							var friends = asd.name + " , ";
+							$("#social").append(friends); 
+						});
+						</br>
+						var rel = data["relationship_status"];
+						$("#social").append("<br> Relationship Status: " + rel + "</br>");
+					});
+				});
+			});
+		</script>
+		
+	</body>
+</html>
